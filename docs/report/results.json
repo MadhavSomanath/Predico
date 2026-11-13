@@ -1,0 +1,967 @@
+{
+  "data": {
+    "raw_rows": 4962,
+    "unique_rows": 305,
+    "diseases": 41,
+    "symptoms": 131,
+    "cases_per_disease_min": 5,
+    "cases_per_disease_max": 10,
+    "symptoms_per_case_min": 3,
+    "symptoms_per_case_median": 7.0,
+    "symptoms_per_case_max": 17,
+    "symptoms_unused": 0,
+    "symptoms_in_one_disease": 78,
+    "symptom_max_diseases": [
+      "vomiting",
+      17
+    ]
+  },
+  "curve": {
+    "decision_tree": {
+      "1": {
+        "top1": 0.06885245901639345,
+        "top3": 0.13224043715846995
+      },
+      "2": {
+        "top1": 0.12786885245901639,
+        "top3": 0.19344262295081968
+      },
+      "3": {
+        "top1": 0.1540983606557377,
+        "top3": 0.21092896174863388
+      },
+      "4": {
+        "top1": 0.19781420765027322,
+        "top3": 0.2448087431693989
+      },
+      "5": {
+        "top1": 0.2273224043715847,
+        "top3": 0.2797814207650273
+      },
+      "6": {
+        "top1": 0.2721311475409836,
+        "top3": 0.3191256830601093
+      },
+      "all": {
+        "top1": 0.4644808743169399,
+        "top3": 0.48633879781420764
+      }
+    },
+    "random_forest": {
+      "1": {
+        "top1": 0.3945355191256831,
+        "top3": 0.5453551912568306
+      },
+      "2": {
+        "top1": 0.5672131147540984,
+        "top3": 0.746448087431694
+      },
+      "3": {
+        "top1": 0.7213114754098361,
+        "top3": 0.8721311475409836
+      },
+      "4": {
+        "top1": 0.8098360655737705,
+        "top3": 0.9289617486338798
+      },
+      "5": {
+        "top1": 0.8841530054644808,
+        "top3": 0.9759562841530055
+      },
+      "6": {
+        "top1": 0.9191256830601093,
+        "top3": 0.9836065573770492
+      },
+      "all": {
+        "top1": 0.9989071038251366,
+        "top3": 1.0
+      }
+    },
+    "naive_bayes": {
+      "1": {
+        "top1": 0.19344262295081968,
+        "top3": 0.3584699453551913
+      },
+      "2": {
+        "top1": 0.4491803278688525,
+        "top3": 0.594535519125683
+      },
+      "3": {
+        "top1": 0.6185792349726776,
+        "top3": 0.740983606557377
+      },
+      "4": {
+        "top1": 0.7431693989071039,
+        "top3": 0.8404371584699454
+      },
+      "5": {
+        "top1": 0.8229508196721311,
+        "top3": 0.9158469945355191
+      },
+      "6": {
+        "top1": 0.8666666666666667,
+        "top3": 0.9595628415300547
+      },
+      "all": {
+        "top1": 0.9792349726775956,
+        "top3": 1.0
+      }
+    }
+  },
+  "confusions": [
+    {
+      "true": "Hepatitis D",
+      "predicted": "Hepatitis C",
+      "count": 12,
+      "rate": 0.4
+    },
+    {
+      "true": "Chicken pox",
+      "predicted": "Fungal infection",
+      "count": 9,
+      "rate": 0.3
+    },
+    {
+      "true": "Tuberculosis",
+      "predicted": "Heart attack",
+      "count": 9,
+      "rate": 0.333
+    },
+    {
+      "true": "Pneumonia",
+      "predicted": "Heart attack",
+      "count": 8,
+      "rate": 0.296
+    },
+    {
+      "true": "hepatitis A",
+      "predicted": "Gastroenteritis",
+      "count": 7,
+      "rate": 0.259
+    },
+    {
+      "true": "Malaria",
+      "predicted": "Gastroenteritis",
+      "count": 6,
+      "rate": 0.25
+    },
+    {
+      "true": "Common Cold",
+      "predicted": "Allergy",
+      "count": 6,
+      "rate": 0.222
+    },
+    {
+      "true": "Hyperthyroidism",
+      "predicted": "Heart attack",
+      "count": 6,
+      "rate": 0.222
+    },
+    {
+      "true": "Typhoid",
+      "predicted": "Dimorphic hemmorhoids(piles)",
+      "count": 5,
+      "rate": 0.185
+    },
+    {
+      "true": "hepatitis A",
+      "predicted": "Malaria",
+      "count": 5,
+      "rate": 0.185
+    }
+  ],
+  "recall_by_disease": {
+    "Hepatitis D": 0.16666666666666666,
+    "Tuberculosis": 0.2222222222222222,
+    "hepatitis A": 0.2222222222222222,
+    "Common Cold": 0.25925925925925924,
+    "Typhoid": 0.2962962962962963,
+    "Chicken pox": 0.3333333333333333,
+    "Malaria": 0.375,
+    "Hypoglycemia": 0.4074074074074074,
+    "Dengue": 0.4666666666666667,
+    "Hepatitis E": 0.48148148148148145,
+    "Hyperthyroidism": 0.48148148148148145,
+    "Pneumonia": 0.5185185185185185,
+    "Hepatitis B": 0.5925925925925926,
+    "Hypothyroidism": 0.625,
+    "Jaundice": 0.7407407407407407,
+    "Chronic cholestasis": 0.8333333333333334,
+    "Fungal infection": 0.8888888888888888,
+    "Migraine": 0.9,
+    "Diabetes ": 0.9259259259259259,
+    "(vertigo) Paroymsal  Positional Vertigo": 0.9523809523809523,
+    "GERD": 0.9523809523809523,
+    "Hepatitis C": 0.9523809523809523,
+    "AIDS": 1.0,
+    "Acne": 1.0,
+    "Alcoholic hepatitis": 1.0,
+    "Allergy": 1.0,
+    "Arthritis": 1.0,
+    "Bronchial Asthma": 1.0,
+    "Cervical spondylosis": 1.0,
+    "Dimorphic hemmorhoids(piles)": 1.0,
+    "Drug Reaction": 1.0,
+    "Gastroenteritis": 1.0,
+    "Heart attack": 1.0,
+    "Hypertension ": 1.0,
+    "Impetigo": 1.0,
+    "Osteoarthristis": 1.0,
+    "Paralysis (brain hemorrhage)": 1.0,
+    "Peptic ulcer diseae": 1.0,
+    "Psoriasis": 1.0,
+    "Urinary tract infection": 1.0,
+    "Varicose veins": 1.0
+  },
+  "calibration": {
+    "random_forest": {
+      "ece": 0.35,
+      "mean_confidence": 0.371,
+      "accuracy": 0.721,
+      "share_below_30pct": 0.424,
+      "bins": [
+        [
+          0.09,
+          0.0,
+          2
+        ],
+        [
+          0.172,
+          0.41,
+          139
+        ],
+        [
+          0.244,
+          0.502,
+          253
+        ],
+        [
+          0.345,
+          0.844,
+          147
+        ],
+        [
+          0.448,
+          0.89,
+          136
+        ],
+        [
+          0.547,
+          0.955,
+          155
+        ],
+        [
+          0.64,
+          1.0,
+          55
+        ],
+        [
+          0.749,
+          1.0,
+          12
+        ],
+        [
+          0.839,
+          1.0,
+          16
+        ]
+      ]
+    },
+    "naive_bayes": {
+      "ece": 0.084,
+      "mean_confidence": 0.702,
+      "accuracy": 0.619,
+      "share_below_30pct": 0.084,
+      "bins": [
+        [
+          0.082,
+          0.0,
+          1
+        ],
+        [
+          0.154,
+          0.125,
+          16
+        ],
+        [
+          0.252,
+          0.133,
+          60
+        ],
+        [
+          0.35,
+          0.173,
+          75
+        ],
+        [
+          0.452,
+          0.337,
+          95
+        ],
+        [
+          0.552,
+          0.495,
+          91
+        ],
+        [
+          0.653,
+          0.615,
+          78
+        ],
+        [
+          0.751,
+          0.658,
+          73
+        ],
+        [
+          0.855,
+          0.713,
+          108
+        ],
+        [
+          0.967,
+          0.921,
+          318
+        ]
+      ]
+    }
+  },
+  "importance_top15": [
+    [
+      "muscle_pain",
+      0.0202
+    ],
+    [
+      "fatigue",
+      0.0187
+    ],
+    [
+      "vomiting",
+      0.0182
+    ],
+    [
+      "itching",
+      0.018
+    ],
+    [
+      "joint_pain",
+      0.0178
+    ],
+    [
+      "high_fever",
+      0.0174
+    ],
+    [
+      "dark_urine",
+      0.0173
+    ],
+    [
+      "loss_of_appetite",
+      0.0172
+    ],
+    [
+      "mild_fever",
+      0.0172
+    ],
+    [
+      "yellowing_of_eyes",
+      0.0169
+    ],
+    [
+      "abdominal_pain",
+      0.0165
+    ],
+    [
+      "nausea",
+      0.015
+    ],
+    [
+      "chest_pain",
+      0.0144
+    ],
+    [
+      "weight_loss",
+      0.0139
+    ],
+    [
+      "chills",
+      0.0135
+    ]
+  ],
+  "signature_symptoms": {
+    "(vertigo) Paroymsal  Positional Vertigo": [
+      [
+        "spinning_movements",
+        1.0
+      ],
+      [
+        "unsteadiness",
+        1.0
+      ],
+      [
+        "loss_of_balance",
+        0.38
+      ]
+    ],
+    "AIDS": [
+      [
+        "muscle_wasting",
+        1.0
+      ],
+      [
+        "patches_in_throat",
+        1.0
+      ],
+      [
+        "extra_marital_contacts",
+        1.0
+      ]
+    ],
+    "Acne": [
+      [
+        "pus_filled_pimples",
+        1.0
+      ],
+      [
+        "blackheads",
+        1.0
+      ],
+      [
+        "scurring",
+        1.0
+      ]
+    ],
+    "Alcoholic hepatitis": [
+      [
+        "swelling_of_stomach",
+        1.0
+      ],
+      [
+        "distention_of_abdomen",
+        1.0
+      ],
+      [
+        "history_of_alcohol_consumption",
+        1.0
+      ]
+    ],
+    "Allergy": [
+      [
+        "shivering",
+        1.0
+      ],
+      [
+        "watering_from_eyes",
+        1.0
+      ],
+      [
+        "continuous_sneezing",
+        0.33
+      ]
+    ],
+    "Arthritis": [
+      [
+        "movement_stiffness",
+        1.0
+      ],
+      [
+        "swelling_joints",
+        0.45
+      ],
+      [
+        "painful_walking",
+        0.45
+      ]
+    ],
+    "Bronchial Asthma": [
+      [
+        "mucoid_sputum",
+        1.0
+      ],
+      [
+        "family_history",
+        0.46
+      ],
+      [
+        "breathlessness",
+        0.23
+      ]
+    ],
+    "Cervical spondylosis": [
+      [
+        "weakness_in_limbs",
+        1.0
+      ],
+      [
+        "neck_pain",
+        0.45
+      ],
+      [
+        "back_pain",
+        0.33
+      ]
+    ],
+    "Chicken pox": [
+      [
+        "red_spots_over_body",
+        0.5
+      ],
+      [
+        "swelled_lymph_nodes",
+        0.35
+      ],
+      [
+        "mild_fever",
+        0.33
+      ]
+    ],
+    "Chronic cholestasis": [
+      [
+        "itching",
+        0.17
+      ],
+      [
+        "yellowing_of_eyes",
+        0.12
+      ],
+      [
+        "yellowish_skin",
+        0.11
+      ]
+    ],
+    "Common Cold": [
+      [
+        "throat_irritation",
+        1.0
+      ],
+      [
+        "loss_of_smell",
+        1.0
+      ],
+      [
+        "congestion",
+        1.0
+      ]
+    ],
+    "Dengue": [
+      [
+        "pain_behind_the_eyes",
+        1.0
+      ],
+      [
+        "back_pain",
+        0.67
+      ],
+      [
+        "red_spots_over_body",
+        0.45
+      ]
+    ],
+    "Diabetes ": [
+      [
+        "irregular_sugar_level",
+        1.0
+      ],
+      [
+        "increased_appetite",
+        1.0
+      ],
+      [
+        "polyuria",
+        1.0
+      ]
+    ],
+    "Dimorphic hemmorhoids(piles)": [
+      [
+        "pain_during_bowel_movements",
+        1.0
+      ],
+      [
+        "pain_in_anal_region",
+        1.0
+      ],
+      [
+        "bloody_stool",
+        1.0
+      ]
+    ],
+    "Drug Reaction": [
+      [
+        "spotting_ urination",
+        1.0
+      ],
+      [
+        "burning_micturition",
+        0.56
+      ],
+      [
+        "stomach_pain",
+        0.45
+      ]
+    ],
+    "Fungal infection": [
+      [
+        "nodal_skin_eruptions",
+        1.0
+      ],
+      [
+        "dischromic _patches",
+        1.0
+      ],
+      [
+        "itching",
+        0.12
+      ]
+    ],
+    "GERD": [
+      [
+        "ulcers_on_tongue",
+        1.0
+      ],
+      [
+        "stomach_pain",
+        0.55
+      ],
+      [
+        "acidity",
+        0.4
+      ]
+    ],
+    "Gastroenteritis": [
+      [
+        "sunken_eyes",
+        1.0
+      ],
+      [
+        "dehydration",
+        1.0
+      ],
+      [
+        "diarrhoea",
+        0.11
+      ]
+    ],
+    "Heart attack": [
+      [
+        "breathlessness",
+        0.15
+      ],
+      [
+        "chest_pain",
+        0.1
+      ],
+      [
+        "sweating",
+        0.09
+      ]
+    ],
+    "Hepatitis B": [
+      [
+        "yellow_urine",
+        1.0
+      ],
+      [
+        "receiving_blood_transfusion",
+        1.0
+      ],
+      [
+        "receiving_unsterile_injections",
+        1.0
+      ]
+    ],
+    "Hepatitis C": [
+      [
+        "family_history",
+        0.46
+      ],
+      [
+        "yellowing_of_eyes",
+        0.1
+      ],
+      [
+        "yellowish_skin",
+        0.1
+      ]
+    ],
+    "Hepatitis D": [
+      [
+        "dark_urine",
+        0.22
+      ],
+      [
+        "joint_pain",
+        0.2
+      ],
+      [
+        "yellowing_of_eyes",
+        0.16
+      ]
+    ],
+    "Hepatitis E": [
+      [
+        "acute_liver_failure",
+        1.0
+      ],
+      [
+        "coma",
+        1.0
+      ],
+      [
+        "stomach_bleeding",
+        1.0
+      ]
+    ],
+    "Hypertension ": [
+      [
+        "lack_of_concentration",
+        1.0
+      ],
+      [
+        "loss_of_balance",
+        0.31
+      ],
+      [
+        "dizziness",
+        0.29
+      ]
+    ],
+    "Hyperthyroidism": [
+      [
+        "muscle_weakness",
+        0.64
+      ],
+      [
+        "mood_swings",
+        0.53
+      ],
+      [
+        "abnormal_menstruation",
+        0.53
+      ]
+    ],
+    "Hypoglycemia": [
+      [
+        "anxiety",
+        1.0
+      ],
+      [
+        "drying_and_tingling_lips",
+        1.0
+      ],
+      [
+        "slurred_speech",
+        1.0
+      ]
+    ],
+    "Hypothyroidism": [
+      [
+        "weight_gain",
+        1.0
+      ],
+      [
+        "cold_hands_and_feets",
+        1.0
+      ],
+      [
+        "puffy_face_and_eyes",
+        1.0
+      ]
+    ],
+    "Impetigo": [
+      [
+        "blister",
+        1.0
+      ],
+      [
+        "yellow_crust_ooze",
+        1.0
+      ],
+      [
+        "red_sore_around_nose",
+        0.83
+      ]
+    ],
+    "Jaundice": [
+      [
+        "weight_loss",
+        0.25
+      ],
+      [
+        "dark_urine",
+        0.2
+      ],
+      [
+        "itching",
+        0.19
+      ]
+    ],
+    "Malaria": [
+      [
+        "muscle_pain",
+        0.23
+      ],
+      [
+        "diarrhoea",
+        0.2
+      ],
+      [
+        "sweating",
+        0.16
+      ]
+    ],
+    "Migraine": [
+      [
+        "visual_disturbances",
+        1.0
+      ],
+      [
+        "stiff_neck",
+        0.64
+      ],
+      [
+        "acidity",
+        0.6
+      ]
+    ],
+    "Osteoarthristis": [
+      [
+        "knee_pain",
+        1.0
+      ],
+      [
+        "hip_joint_pain",
+        1.0
+      ],
+      [
+        "neck_pain",
+        0.55
+      ]
+    ],
+    "Paralysis (brain hemorrhage)": [
+      [
+        "weakness_of_one_body_side",
+        1.0
+      ],
+      [
+        "altered_sensorium",
+        1.0
+      ],
+      [
+        "headache",
+        0.05
+      ]
+    ],
+    "Peptic ulcer diseae": [
+      [
+        "passage_of_gases",
+        1.0
+      ],
+      [
+        "internal_itching",
+        1.0
+      ],
+      [
+        "indigestion",
+        0.4
+      ]
+    ],
+    "Pneumonia": [
+      [
+        "rusty_sputum",
+        1.0
+      ],
+      [
+        "fast_heart_rate",
+        0.53
+      ],
+      [
+        "breathlessness",
+        0.31
+      ]
+    ],
+    "Psoriasis": [
+      [
+        "silver_like_dusting",
+        1.0
+      ],
+      [
+        "small_dents_in_nails",
+        1.0
+      ],
+      [
+        "inflammatory_nails",
+        1.0
+      ]
+    ],
+    "Tuberculosis": [
+      [
+        "blood_in_sputum",
+        1.0
+      ],
+      [
+        "swelled_lymph_nodes",
+        0.35
+      ],
+      [
+        "phlegm",
+        0.35
+      ]
+    ],
+    "Typhoid": [
+      [
+        "toxic_look_(typhos)",
+        1.0
+      ],
+      [
+        "belly_pain",
+        1.0
+      ],
+      [
+        "constipation",
+        0.62
+      ]
+    ],
+    "Urinary tract infection": [
+      [
+        "bladder_discomfort",
+        1.0
+      ],
+      [
+        "foul_smell_of urine",
+        1.0
+      ],
+      [
+        "continuous_feel_of_urine",
+        1.0
+      ]
+    ],
+    "Varicose veins": [
+      [
+        "cramps",
+        1.0
+      ],
+      [
+        "bruising",
+        1.0
+      ],
+      [
+        "swollen_legs",
+        1.0
+      ]
+    ],
+    "hepatitis A": [
+      [
+        "mild_fever",
+        0.33
+      ],
+      [
+        "muscle_pain",
+        0.26
+      ],
+      [
+        "diarrhoea",
+        0.23
+      ]
+    ]
+  }
+}

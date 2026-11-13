@@ -24,6 +24,12 @@ python main.py
 
 **Deploy:** push to GitHub, then on [share.streamlit.io](https://share.streamlit.io) click **Create app** and pick this repo with `app.py`. It's free, and it takes the place of the old "Heroku, coming soon" plan.
 
+## Report
+
+📄 **[Predico: an independent study (2026)](docs/Predico-2026-report.pdf)**: data audit, symptom-count curve, error analysis, calibration, explainability, model card and responsible use. To rebuild its figures and numbers: `pip install matplotlib && python docs/report/analysis.py`.
+
+The original 2020 report is kept at [docs/2020-report.pdf](docs/2020-report.pdf).
+
 ## How it works
 
 - **Data:** the public symptom-to-disease CSV: 132 yes/no symptoms and 41 diseases.
@@ -78,8 +84,11 @@ python main.py
 ├── config.yaml          # Seeds, model settings, eval settings
 ├── dataset/             # Original 2020 CSVs (unchanged)
 ├── saved_model/         # model.joblib + metrics.json
-├── docs/                # Screenshots
-└── Report.pdf           # Original 2020 project report
+├── docs/
+│   ├── Predico-2026-report.pdf   # 2026 independent study
+│   ├── 2020-report.pdf           # Original 2020 report
+│   ├── *.jpg                     # Screenshots
+│   └── report/                   # Report source: analysis.py, report.html, figures
 ```
 
 ## License
