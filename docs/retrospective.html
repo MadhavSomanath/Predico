@@ -1,0 +1,178 @@
+<title>Predico, Re-examined</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a clinical case file. A chart header, then findings, read top to bottom in one narrow column with wide tables. */
+:root {
+  --bg: #f5f8f7; --panel: #ffffff; --ink: #14211d; --muted: #5a6b66; --line: #d6e0dd;
+  --accent: #0b6e63; --accent-soft: #dcefeb; --warn: #a2481b; --warn-soft: #f8e6dc;
+  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1614; --panel: #16201d; --ink: #e3ece9; --muted: #93a6a0; --line: #2a3834;
+  --accent: #4cc3b2; --accent-soft: #173a35; --warn: #f0a07a; --warn-soft: #3a2219; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f1614; --panel: #16201d; --ink: #e3ece9; --muted: #93a6a0; --line: #2a3834;
+  --accent: #4cc3b2; --accent-soft: #173a35; --warn: #f0a07a; --warn-soft: #3a2219; color-scheme: dark }
+
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); }
+.wrap { max-width: 860px; margin: 0 auto; padding-block: 40px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 56px; }
+h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.1; }
+h1 { font-size: clamp(2.4rem, 7vw, 4rem); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 1.6rem; font-weight: 700; }
+p { margin: 0; max-width: 65ch; }
+section { display: grid; gap: 18px; min-width: 0; }
+.label { font: 500 0.72rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* chart header */
+.chart { border-top: 3px solid var(--ink); display: grid; gap: 22px; padding-top: 18px; }
+.chart dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px 24px; margin: 0; }
+.chart dt { composes: label; font: 500 0.72rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.chart dd { margin: 2px 0 0; font: 500 0.95rem var(--mono); }
+.ecg { width: 100%; height: 48px; display: block; }
+.ecg path { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.lede { font-size: 1.15rem; color: var(--muted); }
+
+/* key finding */
+.finding { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 24px; display: grid; gap: 20px; }
+.bars { display: grid; gap: 12px; }
+.bar { display: grid; grid-template-columns: minmax(0, 15rem) 1fr 3.5rem; gap: 12px; align-items: center; }
+.bar .track { height: 14px; background: var(--accent-soft); border-radius: 2px; overflow: hidden; }
+.bar .fill { height: 100%; background: var(--accent); }
+.bar.old .track { background: var(--warn-soft); }
+.bar.old .fill { background: var(--warn); }
+.bar span:first-child { font-size: 0.9rem; }
+.bar .mono { text-align: right; font-weight: 500; }
+.note { font-size: 0.85rem; color: var(--muted); }
+
+/* tables */
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 0.92rem; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+thead th { font: 500 0.72rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+tbody th { font-weight: 600; white-space: nowrap; }
+td.then { color: var(--muted); }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+tr.best td, tr.best th { background: var(--accent-soft); }
+
+/* field + lessons */
+.list { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.list li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.list li > :first-child { font: 500 0.78rem var(--mono); color: var(--accent); padding-top: 3px; }
+.list strong { display: block; }
+.lessons { counter-reset: n; }
+.lessons li > :first-child::before { counter-increment: n; content: "Lesson " counter(n); }
+
+.shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+figure { margin: 0; display: grid; gap: 8px; min-width: 0; }
+figure img { border: 1px solid var(--line); border-radius: 6px; display: block; }
+figcaption { font-size: 0.85rem; color: var(--muted); }
+footer { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 18px; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 560px) {
+  .bar { grid-template-columns: 1fr 3.5rem; } .bar .track { grid-column: 1 / -1; grid-row: 2; }
+  .list li { grid-template-columns: 1fr; gap: 4px; }
+}
+</style>
+
+<div class="wrap">
+  <header class="chart">
+    <h1>Predico, re-examined</h1>
+    <p class="lede">A symptom-based disease predictor I built in December 2020, rebuilt in November 2026. Here is what the second look found, what changed in the field, and what I learned.</p>
+    <svg class="ecg" viewBox="0 0 800 48" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 30 H220 L232 30 L240 8 L250 44 L258 30 H420 L432 30 L440 8 L450 44 L458 30 H620 L632 30 L640 8 L650 44 L658 30 H800"/>
+    </svg>
+    <dl>
+      <div><dt>First built</dt><dd>Dec 2020</dd></div>
+      <div><dt>Re-examined</dt><dd>Nov 2026</dd></div>
+      <div><dt>Stack</dt><dd>Streamlit 0.79 → 1.67</dd></div>
+      <div><dt>Coverage</dt><dd>132 symptoms · 41 diseases</dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <div class="label">Primary finding</div>
+    <h2>The 98% was never tested</h2>
+    <p>The 2020 test set had 42 cases. 41 of them were exact copies of training cases. On top of that, only 305 of the 4,962 rows in the data were unique. The score looked great, but it measured memory, not judgement.</p>
+    <div class="finding">
+      <div class="bars" role="img" aria-label="Random forest scores: 98 percent on the 2020 test, 100 percent on unique cases with all symptoms, 85 percent top 3 and 70 percent top match from 3 symptoms">
+        <div class="bar old"><span>2020 test (copies of training data)</span><div class="track"><div class="fill" style="width:98%"></div></div><span class="mono">98%</span></div>
+        <div class="bar"><span>Unseen cases, every symptom given</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="mono">100%</span></div>
+        <div class="bar"><span>Unseen cases, 3 symptoms, in top 3</span><div class="track"><div class="fill" style="width:85%"></div></div><span class="mono">85%</span></div>
+        <div class="bar"><span>Unseen cases, 3 symptoms, top match</span><div class="track"><div class="fill" style="width:70%"></div></div><span class="mono">70%</span></div>
+      </div>
+      <p class="note">Random forest, 5-fold cross-validation on the 305 unique cases. The data is tidy enough that a full symptom list is easy. Real people report 2 or 3 symptoms, so that is the number that matters.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Model comparison · unseen cases</div>
+    <h2>Three models, scored honestly</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Model</th><th>Top match, all symptoms</th><th>Top match, 3 symptoms</th><th>In top 3, 3 symptoms</th></tr></thead>
+        <tbody>
+          <tr><th>Decision tree</th><td class="num">48%</td><td class="num">13%</td><td class="num">20%</td></tr>
+          <tr class="best"><th>Random forest (shipped)</th><td class="num">100%</td><td class="num">70%</td><td class="num">85%</td></tr>
+          <tr><th>Naive Bayes</th><td class="num">98%</td><td class="num">58%</td><td class="num">73%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Treatment notes</div>
+    <h2>The project, then and now</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th></th><th>2020</th><th>2026</th></tr></thead>
+        <tbody>
+          <tr><th>Data</th><td class="then">Used as-is</td><td>Duplicates removed, a broken column fixed</td></tr>
+          <tr><th>Testing</th><td class="then">One split, 41 of 42 test cases leaked</td><td>Cross-validation plus a 3-symptom test</td></tr>
+          <tr><th>Output</th><td class="then">One diagnosis, in red</td><td>Top 5 matches with confidence</td></tr>
+          <tr><th>Safety</th><td class="then">"Consult your nearest health administrator"</td><td>Clear disclaimer, warning when you enter few symptoms</td></tr>
+          <tr><th>Code</th><td class="then">Training script crashed</td><td>Runs end to end, saves its own metrics</td></tr>
+          <tr><th>Dependencies</th><td class="then">137-package <span class="mono">pip freeze</span></td><td>6 pinned packages</td></tr>
+          <tr><th>Hosting</th><td class="then">Heroku, "coming soon"</td><td>Streamlit Community Cloud</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="shots">
+      <figure><img src="predict.jpg" alt="Predico symptom check showing dengue as the top match with 22 percent confidence, followed by four alternatives"><figcaption>The rebuilt symptom check: ranked matches, not a verdict.</figcaption></figure>
+      <figure><img src="retrospective.jpg" alt="Predico's 2020 to 2026 tab, a table comparing the old and new project"><figcaption>The app now tells its own story in a 2020 → 2026 tab.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Wider field · 2020 to 2026</div>
+    <h2>How prediction changed around it</h2>
+    <ul class="list">
+      <li><span>Input</span><div><strong>Language replaced checkboxes.</strong> Since LLMs arrived, symptom checkers let you describe how you feel in your own words, instead of picking from a fixed list.</div></li>
+      <li><span>Output</span><div><strong>Ranked answers, with doubt.</strong> Good tools now show several options with how sure they are, and say when they don't know.</div></li>
+      <li><span>Evaluation</span><div><strong>Leakage checks became basic hygiene.</strong> Removing duplicates, testing on unseen data and publishing model cards are now the minimum for any claimed score.</div></li>
+      <li><span>Regulation</span><div><strong>Health AI became high-risk by law.</strong> The EU AI Act puts medical AI in its high-risk class, and regulators such as the FDA publish guidance for AI in medical devices.</div></li>
+      <li><span>Shipping</span><div><strong>Deploying became one click.</strong> Free hosts like Streamlit Community Cloud replaced hand-built Heroku setups, whose free tier ended in 2022.</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="label">Discharge summary</div>
+    <h2>What I learned</h2>
+    <ul class="list lessons">
+      <li><span></span><div><strong>Data quality beats model choice.</strong> A score is only as good as the test behind it. Mine was measured on copies of the training data.</div></li>
+      <li><span></span><div><strong>Ship it, and make it reproducible.</strong> A training script that crashes and a "coming soon" deploy are not a finished project.</div></li>
+      <li><span></span><div><strong>Health AI must be humble.</strong> Show uncertainty, show alternatives, and never pose as a doctor.</div></li>
+      <li><span></span><div><strong>LLMs changed how I build.</strong> Today I'd start from language. Predico stays classic ML on purpose: small, explainable, free to run and no API key needed.</div></li>
+    </ul>
+  </section>
+
+  <footer>Predico is a learning project, not medical advice. Code: <a href="https://github.com/MadhavSomanath/Predico">github.com/MadhavSomanath/Predico</a></footer>
+</div>
