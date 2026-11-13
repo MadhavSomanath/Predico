@@ -1,0 +1,24 @@
+{
+  "best": "random_forest",
+  "raw_rows": 4962,
+  "unique_rows": 305,
+  "diseases": 41,
+  "partial_symptoms": 3,
+  "results": {
+    "decision_tree": {
+      "top1_full": 0.482,
+      "top1_partial": 0.131,
+      "top3_partial": 0.203
+    },
+    "random_forest": {
+      "top1_full": 1.0,
+      "top1_partial": 0.705,
+      "top3_partial": 0.849
+    },
+    "naive_bayes": {
+      "top1_full": 0.977,
+      "top1_partial": 0.584,
+      "top3_partial": 0.734
+    }
+  }
+}

@@ -1,26 +1,23 @@
-# This file contains the Project Configuration Parameters
+# Predico training configuration
 
-# Random State
 random_state: 42
 
-# Dataset Path
 dataset:
-  # Training Dataset Path
   training_data_path: './dataset/training_data.csv'
-  # Test Dataset Path
   test_data_path: './dataset/test_data.csv'
-  # Validation Data Size for train_test_split
-  validation_size: 0.20
 
-# Model Parameters
+# Honest evaluation: CV on deduplicated rows, plus a "real user" score
+# where each case only reports this many of its symptoms.
+eval:
+  folds: 5
+  partial_symptoms: 3
+
 model:
-  # Decision Tree
   decision_tree:
     criterion: 'entropy'
+  random_forest:
+    n_estimators: 300
+  naive_bayes:
+    alpha: 1.0
 
-  # Random Forest Classifier
-  random_f:
-    n_estimators: 50
-
-# Model Save Path
 model_save_path: './saved_model/'
