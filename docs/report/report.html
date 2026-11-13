@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Predico: An Independent Study (2026)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Build: python docs/report/analysis.py, then print this file to PDF (see section 12). */
+:root {
+  --ink: #14211d; --muted: #5a6b66; --line: #d6e0dd; --accent: #0b6e63; --soft: #e6f2ef; --warn: #a2481b; --warn-soft: #f8e9e1;
+  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", Menlo, monospace;
+}
+@page { size: A4; margin: 20mm 18mm 20mm 18mm;
+  @bottom-right { content: counter(page); font: 8pt var(--mono); color: #5a6b66; } }
+html { background: #fff; }
+body { margin: 0; color: var(--ink); font: 10pt/1.55 var(--body); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h2 { font-size: 17pt; margin: 0 0 8pt; padding-top: 4pt; border-top: 2pt solid var(--ink); break-after: avoid; }
+h2 .n { font: 500 10pt var(--mono); color: var(--accent); margin-right: 8pt; vertical-align: 2pt; }
+h3 { font-size: 11.5pt; margin: 12pt 0 4pt; break-after: avoid; }
+p { margin: 0 0 7pt; }
+section { margin-bottom: 18pt; }
+section.page { break-before: page; }
+ul { margin: 0 0 7pt; padding-left: 16pt; } li { margin-bottom: 3pt; }
+code, .mono { font-family: var(--mono); font-size: 8.8pt; }
+pre { font: 8.5pt/1.5 var(--mono); background: var(--soft); padding: 8pt 10pt; border-radius: 3pt; margin: 0 0 8pt; white-space: pre-wrap; }
+#sig { break-inside: auto; } #sig tr { break-inside: avoid; }
+table { border-collapse: collapse; width: 100%; margin: 4pt 0 10pt; font-size: 9pt; break-inside: avoid; }
+th, td { text-align: left; padding: 4pt 7pt; border-bottom: 0.6pt solid var(--line); vertical-align: top; }
+thead th { font: 500 7.5pt var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); border-bottom: 1pt solid var(--ink); }
+td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+tr.hl td { background: var(--soft); }
+figure { margin: 6pt 0 12pt; break-inside: avoid; }
+figure img { display: block; max-width: 100%; }
+figcaption { font-size: 8.5pt; color: var(--muted); margin-top: 4pt; }
+.key { border-left: 3pt solid var(--accent); background: var(--soft); padding: 8pt 12pt; margin: 6pt 0 12pt; break-inside: avoid; }
+.key.warn { border-color: var(--warn); background: var(--warn-soft); }
+.key p:last-child { margin: 0; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14pt; align-items: start; }
+.small { font-size: 8.5pt; color: var(--muted); }
+
+/* cover */
+.cover { height: 247mm; display: grid; grid-template-rows: auto 1fr auto; }
+.cover .top { font: 500 8pt var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border-top: 3pt solid var(--ink); padding-top: 8pt; }
+.cover h1 { font-size: 40pt; letter-spacing: -0.02em; margin-top: 60mm; }
+.cover .sub { font-size: 14pt; color: var(--muted); margin-top: 10pt; max-width: 30em; }
+.cover svg { width: 100%; height: 40pt; margin-top: 18mm; }
+.cover svg path { fill: none; stroke: var(--accent); stroke-width: 2; }
+.cover dl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10pt; margin: 0; border-top: 0.6pt solid var(--line); padding-top: 10pt; }
+.cover dt { font: 500 7pt var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.cover dd { margin: 2pt 0 0; font: 500 9pt var(--mono); }
+.toc { list-style: none; padding: 0; columns: 2; column-gap: 20pt; }
+.toc li { font-size: 9.5pt; }
+.toc span { font-family: var(--mono); color: var(--accent); margin-right: 6pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="top">Project report · November 2026</div>
+  <div>
+    <h1>Predico: an independent study</h1>
+    <p class="sub">A symptom-based disease predictor, its data, how well it really works, where it fails, and how it should and should not be used.</p>
+    <svg viewBox="0 0 800 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 H220 L232 26 L240 4 L250 38 L258 26 H420 L432 26 L440 4 L450 38 L458 26 H620 L632 26 L640 4 L650 38 L658 26 H800"/></svg>
+  </div>
+  <dl>
+    <div><dt>Author</dt><dd>Madhav Somanath</dd></div>
+    <div><dt>Repository</dt><dd>MadhavSomanath/Predico</dd></div>
+    <div><dt>Model</dt><dd>Random forest, 300 trees</dd></div>
+    <div><dt>Scope</dt><dd>41 diseases · 131 symptoms</dd></div>
+  </dl>
+</div>
+
+<section class="page">
+  <h2>Abstract</h2>
+  <p>Predico is a small web app: a user picks symptoms from a list of 131, and a random forest ranks 41 possible diseases. This report studies the project as it stands in 2026. It audits the data, re-evaluates three models under realistic conditions, analyses errors, checks whether the confidence scores mean anything, and explains what drives the predictions.</p>
+  <p>The training data contains 4,962 rows but only 305 unique cases. Given a full symptom list, the random forest is almost always right (99.9%), but this reflects a very tidy dataset. When a user reports only 3 symptoms, as real users tend to, the correct disease is the top match <strong>72%</strong> of the time and in the top three <strong>87%</strong> of the time. Errors cluster in diseases with no distinctive symptom: hepatitis D, tuberculosis, hepatitis A and the common cold. The model's confidence scores are strongly <em>under</em>-confident: it shows 37% on average while being right 72% of the time. Predico is suitable as a learning and demonstration tool. It is not suitable for diagnosis, triage or any medical decision.</p>
+
+  <h3>Contents</h3>
+  <ul class="toc">
+    <li><span>1</span>Introduction</li><li><span>2</span>System</li><li><span>3</span>Data audit</li>
+    <li><span>4</span>Method</li><li><span>5</span>Results</li><li><span>6</span>Error analysis</li>
+    <li><span>7</span>Calibration</li><li><span>8</span>Explainability</li><li><span>9</span>Model card</li>
+    <li><span>10</span>Responsible use and regulation</li><li><span>11</span>Limitations</li>
+    <li><span>12</span>Reproducibility</li><li><span>13</span>Future work</li><li><span>A</span>Signature symptoms</li>
+    <li><span>R</span>References</li>
+  </ul>
+
+  <h2><span class="n">1</span>Introduction</h2>
+  <p>Online symptom checkers are among the most common health tools people use. They answer one question: given what I feel, what might this be? Predico is a minimal version of that idea, built with classic machine learning on a public dataset, and kept deliberately small: no account, no API key, no data stored.</p>
+  <p>This study asks four questions:</p>
+  <ul>
+    <li>How good is the data, and what does it really represent?</li>
+    <li>How accurate is the model when a user gives only a few symptoms?</li>
+    <li>Where does it fail, and are its confidence scores trustworthy?</li>
+    <li>What is a responsible way to present it?</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">2</span>System</h2>
+  <div class="cols">
+    <div>
+      <p>The project has two scripts and no server-side state.</p>
+      <ul>
+        <li><code>main.py</code> loads and cleans the CSVs, cross-validates three models, trains the best on all data and writes <code>saved_model/model.joblib</code> and <code>metrics.json</code>.</li>
+        <li><code>app.py</code> is a Streamlit page. It loads the model once (cached), turns the chosen symptoms into a 131-long yes/no vector, and shows the five most likely diseases with the model's vote share.</li>
+        <li><code>config.yaml</code> holds the seed, model settings and evaluation settings.</li>
+      </ul>
+      <table>
+        <thead><tr><th>Component</th><th>Version</th></tr></thead>
+        <tbody>
+          <tr><td>Streamlit</td><td class="num">1.67.0</td></tr>
+          <tr><td>scikit-learn</td><td class="num">1.9.1</td></tr>
+          <tr><td>pandas / NumPy</td><td class="num">3.1.1 / 2.5.4</td></tr>
+          <tr><td>Hosting</td><td class="num">Streamlit Community Cloud</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure><img src="../predict.jpg" alt="Predico showing dengue as top match"><figcaption>Figure 1. The app ranks five matches with the model's confidence and a medical disclaimer.</figcaption></figure>
+  </div>
+</section>
+
+<section class="page">
+  <h2><span class="n">3</span>Data audit</h2>
+  <p>The data is the widely shared "Disease Prediction Using Machine Learning" set from Kaggle [1]: rows of yes/no symptoms, each labelled with one disease.</p>
+  <table>
+    <thead><tr><th>Measure</th><th class="num">Value</th></tr></thead>
+    <tbody>
+      <tr><td>Rows in the CSVs (training + test)</td><td class="num">4,962</td></tr>
+      <tr class="hl"><td>Unique symptom patterns</td><td class="num">305</td></tr>
+      <tr><td>Diseases</td><td class="num">41</td></tr>
+      <tr><td>Unique cases per disease</td><td class="num">5 – 10</td></tr>
+      <tr><td>Symptoms per case (min / median / max)</td><td class="num">3 / 7 / 17</td></tr>
+      <tr><td>Symptoms that occur in only one disease</td><td class="num">78 of 131</td></tr>
+      <tr><td>Most shared symptom</td><td class="num">vomiting, 17 diseases</td></tr>
+    </tbody>
+  </table>
+  <h3>Findings</h3>
+  <ul>
+    <li><strong>94% of rows are duplicates.</strong> The original test file had 42 rows, and 41 of them also appear in training. Any score measured on that split is meaningless, a common form of leakage [9]. All analysis here uses the 305 unique cases.</li>
+    <li><strong>A broken column.</strong> <code>fluid_overload</code> is always zero; the real values sit in a duplicate column, <code>fluid_overload.1</code>. Cleaning merges them, leaving 131 symptoms.</li>
+    <li><strong>It looks synthetic.</strong> 78 symptoms belong to exactly one disease, and many diseases have a symptom present in 100% of their cases (every allergy case has shivering). Real patient records are never this clean, so scores here are an upper bound.</li>
+    <li><strong>Sensitive and odd features.</strong> "Extra marital contacts" is a feature for AIDS, which encodes stigma rather than clinical risk. Labels contain typos ("Osteoarthristis", "Peptic ulcer diseae", "hemmorhoids"), and capitalisation is inconsistent ("hepatitis A").</li>
+    <li><strong>No context.</strong> There is no age, sex, duration, severity or history, all of which doctors rely on.</li>
+  </ul>
+
+  <h2><span class="n">4</span>Method</h2>
+  <ul>
+    <li><strong>Models:</strong> decision tree (entropy), random forest (300 trees) [3] and Bernoulli naive Bayes (α = 1), all from scikit-learn [2].</li>
+    <li><strong>Validation:</strong> stratified 5-fold cross-validation on the 305 unique cases, repeated 3 times with different seeds (915 predictions per setting).</li>
+    <li><strong>Realistic input:</strong> for each held-out case, keep only <em>k</em> of its symptoms, chosen at random, for <em>k</em> = 1 to 6. This simulates a user who reports what bothers them most and stops.</li>
+    <li><strong>Metrics:</strong> top match (top-1 accuracy), in top 3 (top-3 accuracy), and expected calibration error (ECE) [4].</li>
+  </ul>
+  <p class="small">The app's own "70% / 85%" figure comes from <code>main.py</code>, which runs one repeat. This report averages three, giving 72% / 87%. The difference is sampling noise.</p>
+</section>
+
+<section class="page">
+  <h2><span class="n">5</span>Results</h2>
+  <table>
+    <thead><tr><th>Model</th><th class="num">All symptoms</th><th class="num">3 symptoms, top match</th><th class="num">3 symptoms, in top 3</th></tr></thead>
+    <tbody>
+      <tr><td>Decision tree</td><td class="num">46.4%</td><td class="num">15.4%</td><td class="num">21.1%</td></tr>
+      <tr class="hl"><td>Random forest</td><td class="num">99.9%</td><td class="num">72.1%</td><td class="num">87.2%</td></tr>
+      <tr><td>Naive Bayes</td><td class="num">97.9%</td><td class="num">61.9%</td><td class="num">74.1%</td></tr>
+    </tbody>
+  </table>
+  <figure><img src="figures/curve.svg" alt="Accuracy against number of symptoms for three models"><figcaption>Figure 2. Accuracy on unseen cases as the user reports more symptoms. Each point is 915 predictions.</figcaption></figure>
+  <div class="key">
+    <p><strong>The number of symptoms matters more than the model.</strong> With one symptom, the random forest is right 40% of the time. Each extra symptom adds a lot until about five, where it passes 88%. That is why the app warns users who enter fewer than three.</p>
+  </div>
+  <p>A single decision tree fails because each case has only 5–10 siblings: one tree memorises exact patterns and cannot cope with missing symptoms. A forest of 300 trees, each built on different symptoms, degrades gracefully. Naive Bayes sits in between, which fits its assumption that symptoms are independent.</p>
+</section>
+
+<section class="page">
+  <h2><span class="n">6</span>Error analysis</h2>
+  <p>With 3 symptoms, the random forest gets 22 of 41 diseases right at least 95% of the time. The rest fail in a clear pattern.</p>
+  <figure><img src="figures/recall.svg" alt="Top match accuracy per disease"><figcaption>Figure 3. Top-match accuracy per disease with 3 symptoms (random forest). Orange: below 50%.</figcaption></figure>
+  <div class="cols">
+    <div>
+      <table>
+        <thead><tr><th>Actual</th><th>Predicted as</th><th class="num">Rate</th></tr></thead>
+        <tbody>
+          <tr><td>Hepatitis D</td><td>Hepatitis C</td><td class="num">40%</td></tr>
+          <tr><td>Tuberculosis</td><td>Heart attack</td><td class="num">33%</td></tr>
+          <tr><td>Chicken pox</td><td>Fungal infection</td><td class="num">30%</td></tr>
+          <tr><td>Pneumonia</td><td>Heart attack</td><td class="num">30%</td></tr>
+          <tr><td>Hepatitis A</td><td>Gastroenteritis</td><td class="num">26%</td></tr>
+          <tr><td>Malaria</td><td>Gastroenteritis</td><td class="num">25%</td></tr>
+          <tr><td>Common cold</td><td>Allergy</td><td class="num">22%</td></tr>
+          <tr><td>Hyperthyroidism</td><td>Heart attack</td><td class="num">22%</td></tr>
+        </tbody>
+      </table>
+      <div class="key warn"><p><strong>Safety note.</strong> Mixing up tuberculosis and heart attack is not harmless in either direction. This is why the app shows five ranked options and never a single verdict.</p></div>
+    </div>
+    <div>
+      <h3 style="margin-top:4pt">Why these fail</h3>
+      <ul>
+        <li><strong>No giveaway symptom.</strong> The worst diseases (hepatitis D, hepatitis A, malaria, chicken pox) have no symptom unique to them; everything they show is shared with others (Appendix A).</li>
+        <li><strong>Hepatitis family.</strong> Hepatitis A, C, D and jaundice share yellow skin, dark urine and nausea. With 3 symptoms they are hard to tell apart, for a doctor too.</li>
+        <li><strong>"Heart attack" as a catch-all.</strong> Chest pain, breathlessness and sweating appear across lung and thyroid diseases, so the model often lands on heart attack.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <h2><span class="n">7</span>Calibration</h2>
+  <p>The app shows a confidence next to each match. A well-calibrated model that says "40%" should be right about 40% of the time. Figure 4 plots stated confidence against how often the top match was actually right, with 3 symptoms.</p>
+  <div class="cols">
+    <figure><img src="figures/calibration.svg" alt="Calibration curves"><figcaption>Figure 4. Reliability diagram, 3 symptoms. Above the dotted line means under-confident.</figcaption></figure>
+    <div>
+      <table>
+        <thead><tr><th></th><th class="num">Random forest</th><th class="num">Naive Bayes</th></tr></thead>
+        <tbody>
+          <tr><td>Average confidence</td><td class="num">37%</td><td class="num">70%</td></tr>
+          <tr><td>Actually right</td><td class="num">72%</td><td class="num">62%</td></tr>
+          <tr><td>Calibration error (ECE)</td><td class="num">0.35</td><td class="num">0.08</td></tr>
+          <tr><td>Shown below 30%</td><td class="num">42%</td><td class="num">8%</td></tr>
+        </tbody>
+      </table>
+      <div class="key">
+        <p><strong>The random forest undersells itself.</strong> When it shows 30–40%, it is right 84% of the time. Its "confidence" is the share of trees that voted for that disease, and with 41 options those votes spread thinly.</p>
+      </div>
+      <p>Naive Bayes is less accurate but much better calibrated. For users, under-confidence is the safer failure, but the numbers are still misleading. The app labels them "model confidence, not a medical probability", which is accurate. Section 13 suggests a fix.</p>
+    </div>
+  </div>
+
+  <h2><span class="n">8</span>Explainability</h2>
+  <figure><img src="figures/importance.svg" alt="Top 15 symptoms by random forest importance"><figcaption>Figure 5. The 15 symptoms the random forest relies on most overall.</figcaption></figure>
+  <p>The most important symptoms overall are broad ones (muscle pain, fatigue, vomiting, itching, joint pain). They do not identify a disease alone but split the 41 into groups. The deciding step is usually a disease's <em>signature symptom</em>: one that, when present, points almost only to that disease (for example, "silver-like dusting" for psoriasis or "rusty sputum" for pneumonia). Appendix A lists these for every disease. Diseases without one are mostly the ones that fail in the error analysis.</p>
+</section>
+
+<section class="page">
+  <h2><span class="n">9</span>Model card</h2>
+  <p class="small">Following the model card format of Mitchell et al. [5].</p>
+  <table>
+    <tbody>
+      <tr><th>Model</th><td>Random forest classifier, 300 trees, scikit-learn 1.9.1, seed 42. Trained on 305 unique cases.</td></tr>
+      <tr><th>Input</th><td>Yes/no presence of up to 131 symptoms.</td></tr>
+      <tr><th>Output</th><td>Vote share across 41 diseases; the app shows the top 5.</td></tr>
+      <tr><th>Intended use</th><td>Learning and demonstration: showing how symptom-based classification works and where it breaks.</td></tr>
+      <tr><th>Out of scope</th><td>Diagnosis, triage, deciding whether to seek care, any clinical or insurance decision, use on children or in pregnancy, any disease outside the 41.</td></tr>
+      <tr><th>Performance</th><td>3 symptoms: 72% top match, 87% in top 3. 1 symptom: 40% / 55%. Full symptom list: 99.9% (inflated by tidy data).</td></tr>
+      <tr><th>Known weaknesses</th><td>Hepatitis D and A, tuberculosis, common cold, typhoid, chicken pox and malaria below 40% with 3 symptoms. Confidence understated by about half.</td></tr>
+      <tr><th>Data caveats</th><td>Likely synthetic; no demographics, duration or severity; one stigmatising feature; typos in labels.</td></tr>
+      <tr><th>Fairness</th><td>Cannot be assessed: the data has no demographic fields.</td></tr>
+      <tr><th>Privacy</th><td>The app stores nothing; symptoms stay in the browser session.</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="n">10</span>Responsible use and regulation</h2>
+  <ul>
+    <li><strong>Not a medical device, by design.</strong> In the EU and US, software intended to diagnose or guide treatment can be a regulated medical device. Predico is explicitly not intended for that, and says so on the page.</li>
+    <li><strong>EU AI Act.</strong> The Act (Regulation (EU) 2024/1689) [6] treats AI that is a medical device, or part of one, as high-risk, with duties for data quality, documentation, human oversight and accuracy. Predico stays outside that scope only because of its stated purpose. A health product built on it would not.</li>
+    <li><strong>FDA.</strong> The FDA now publishes guidance and a public list of AI-enabled medical devices [7]. Symptom checkers that only give general information are usually not regulated as devices, but the line depends on intended use and claims.</li>
+    <li><strong>Evidence from the field.</strong> An early audit of 23 commercial symptom checkers found the right diagnosis listed first only about a third of the time [8]. Predico's tidy-data numbers should not be compared to that directly.</li>
+    <li><strong>Design choices that follow.</strong> Clear disclaimer, ranked options instead of a verdict, a warning for low input, no data stored, and an emergency message.</li>
+  </ul>
+</section>
+
+<section class="page">
+  <h2><span class="n">11</span>Limitations</h2>
+  <ul>
+    <li>All results come from a small, likely synthetic dataset. Real-world accuracy would be lower.</li>
+    <li>The symptom-dropping test picks symptoms at random. Real users report the most bothersome ones first, which may be more or less informative.</li>
+    <li>Only 41 diseases. Anything else is forced into one of them; the model cannot say "none of these".</li>
+    <li>Symptoms are yes/no only, with no severity, duration or timing.</li>
+    <li>Feature importance from impurity can favour common symptoms; it describes the model, not medicine.</li>
+  </ul>
+
+  <h2><span class="n">12</span>Reproducibility</h2>
+  <p>Every number in this report can be regenerated from the repository. Seeds are fixed at 42 (plus 43 and 44 for the extra repeats).</p>
+<pre>python -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt matplotlib
+python main.py                      # trains, writes saved_model/
+python docs/report/analysis.py      # figures + docs/report/results.json
+# print docs/report/report.html to PDF, e.g.:
+chrome --headless --print-to-pdf=docs/Predico-2026-report.pdf docs/report/report.html
+streamlit run app.py</pre>
+  <p class="small">Raw results: <code>docs/report/results.json</code>. Versions are pinned in <code>requirements.txt</code>.</p>
+
+  <h2><span class="n">13</span>Future work</h2>
+  <ul>
+    <li><strong>Fix the confidence numbers.</strong> Calibrate the forest (for example with scikit-learn's <code>CalibratedClassifierCV</code>), or show naive Bayes probabilities alongside.</li>
+    <li><strong>Allow "none of these".</strong> Flag inputs that don't resemble any training case instead of forcing a match.</li>
+    <li><strong>Better data.</strong> A dataset with real clinical cases, demographics and severity, such as published vignette sets used to evaluate symptom checkers [8].</li>
+    <li><strong>Ask the next question.</strong> Suggest the one symptom that would best separate the top matches, the way a doctor would ask.</li>
+    <li><strong>Natural-language input.</strong> Let users describe symptoms in their own words and map them to the 131 features, keeping the transparent model underneath.</li>
+  </ul>
+</section>
+
+<section class="page">
+  <h2><span class="n">A</span>Signature symptoms</h2>
+  <p>For each disease: its common symptoms (present in at least half its cases), ranked by how strongly each one points to that disease alone. "100%" means every case with that symptom has this disease.</p>
+  <table id="sig">
+    <thead><tr><th>Disease</th><th>Most telling symptoms</th><th class="num">3-symptom accuracy</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <script>
+    // Filled from results.json so the table always matches the analysis run.
+    fetch("results.json").then(r => r.json()).then(r => {
+      const tb = document.querySelector("#sig tbody");
+      const nice = s => s.replace(/_/g, " ").replace(/\s+/g, " ").trim();
+      Object.entries(r.signature_symptoms).sort((a, b) => a[0].trim().toLowerCase().localeCompare(b[0].trim().toLowerCase())).forEach(([d, sy]) => {
+        const acc = r.recall_by_disease[d];
+        const tr = document.createElement("tr");
+        if (acc < 0.5) tr.className = "hl";
+        tr.innerHTML = `<td>${d.trim()}</td><td>${sy.map(([s, v]) => `${nice(s)} <span class="mono">${Math.round(v * 100)}%</span>`).join(", ")}</td><td class="num">${Math.round(acc * 100)}%</td>`;
+        tb.appendChild(tr);
+      });
+      document.body.dataset.ready = "1";
+    });
+  </script>
+  <p class="small">Highlighted rows are below 50% top-match accuracy. Most of them have no symptom that points to them alone. The others (such as hepatitis E) do, but lose it when only 3 symptoms are kept.</p>
+</section>
+
+<section style="break-inside: avoid">
+  <h2><span class="n">R</span>References</h2>
+  <ol class="small" style="padding-left:14pt">
+    <li>Kaggle. "Disease Prediction Using Machine Learning" dataset (kaushil268). kaggle.com/datasets/kaushil268/disease-prediction-using-machine-learning</li>
+    <li>Pedregosa F. et al. Scikit-learn: Machine Learning in Python. <em>JMLR</em> 12, 2825–2830 (2011).</li>
+    <li>Breiman L. Random Forests. <em>Machine Learning</em> 45, 5–32 (2001).</li>
+    <li>Guo C., Pleiss G., Sun Y., Weinberger K. Q. On Calibration of Modern Neural Networks. <em>ICML</em> (2017).</li>
+    <li>Mitchell M. et al. Model Cards for Model Reporting. <em>FAT* '19</em> (2019).</li>
+    <li>Regulation (EU) 2024/1689 of the European Parliament and of the Council (Artificial Intelligence Act).</li>
+    <li>U.S. Food and Drug Administration. Artificial Intelligence-Enabled Medical Devices (list and guidance). fda.gov</li>
+    <li>Semigran H. L. et al. Evaluation of symptom checkers for self diagnosis and triage: audit study. <em>BMJ</em> 351, h3480 (2015).</li>
+    <li>Kapoor S., Narayanan A. Leakage and the reproducibility crisis in machine-learning-based science. <em>Patterns</em> 4(9) (2023).</li>
+  </ol>
+</section>
+
+</body>
+</html>
